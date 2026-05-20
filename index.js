@@ -7,10 +7,6 @@ const {
   convertImage,
 } = require("./converters/image");
 
-const {
-  convertPdf,
-} = require("./converters/pdf");
-
 const bot = new TelegramBot(
   process.env.BOT_TOKEN,
   {
@@ -33,7 +29,7 @@ bot.onText(/\/start/, (msg) => {
 
   bot.sendMessage(
     chatId,
-    "Welcome to File Converter Bot 🚀\n\nChoose category:",
+    "Welcome to Image Converter Bot 🚀\n\nChoose conversion category:",
     {
       reply_markup: {
         inline_keyboard: [
@@ -42,13 +38,6 @@ bot.onText(/\/start/, (msg) => {
             {
               text: "🖼️ Image Converter",
               callback_data: "image-menu",
-            },
-          ],
-
-          [
-            {
-              text: "📄 File Converter",
-              callback_data: "file-menu",
             },
           ],
 
@@ -105,14 +94,14 @@ bot.on("callback_query", async (query) => {
 
             [
               {
-                text: "Image ➜ WEBP",
+                text: "IMAGE ➜ WEBP",
                 callback_data: "webp",
               },
             ],
 
             [
               {
-                text: "Image ➜ AVIF",
+                text: "IMAGE ➜ AVIF",
                 callback_data: "avif",
               },
             ],
@@ -123,76 +112,14 @@ bot.on("callback_query", async (query) => {
                 callback_data: "gif",
               },
             ],
+
             [
               {
                 text: "IMAGE ➜ PDF",
                 callback_data: "img-to-pdf",
               },
             ],
-            
 
-          ],
-        },
-      }
-    );
-  }
-
-  // =========================
-  // FILE MENU
-  // =========================
-
-  if (data === "file-menu") {
-
-    return bot.sendMessage(
-      chatId,
-      "Choose File Conversion:",
-      {
-        reply_markup: {
-          inline_keyboard: [
-
-            [
-              {
-                text: "PDF ➜ WORD",
-                callback_data: "pdf-to-docx",
-              },
-            ],
-          
-            [
-              {
-                text: "WORD ➜ PDF",
-                callback_data: "docx-to-pdf",
-              },
-            ],
-          
-            [
-              {
-                text: "PDF ➜ TXT",
-                callback_data: "pdf-to-txt",
-              },
-            ],
-          
-            [
-              {
-                text: "TXT ➜ PDF",
-                callback_data: "txt-to-pdf",
-              },
-            ],
-          
-            [
-              {
-                text: "PDF ➜ HTML",
-                callback_data: "pdf-to-html",
-              },
-            ],
-            [
-              {
-                text: "PDF ➜ IMAGE",
-                callback_data: "pdf-to-img",
-              },
-            ],
-          
-            
-          
           ],
         },
       }
@@ -207,7 +134,7 @@ bot.on("callback_query", async (query) => {
 
   bot.sendMessage(
     chatId,
-    `Now send file for conversion:\n\nSelected: ${data.toUpperCase()}`
+    `Now send image for conversion.\n\nSelected: ${data.toUpperCase()}`
   );
 });
 
@@ -226,7 +153,7 @@ bot.on("photo", async (msg) => {
 
     return bot.sendMessage(
       chatId,
-      "Use /start first."
+      "Please use /start first."
     );
   }
 
@@ -262,7 +189,7 @@ bot.on("document", async (msg) => {
 
     return bot.sendMessage(
       chatId,
-      "Use /start first."
+      "Please use /start first."
     );
   }
 
@@ -276,6 +203,7 @@ bot.on("document", async (msg) => {
   // =========================
 
   if (
+    mimeType &&
     mimeType.startsWith("image/")
   ) {
 
@@ -294,134 +222,30 @@ bot.on("document", async (msg) => {
   }
 
   // =========================
-  // PDF ➜ WORD
-  // =========================
-
-  else if (
-    format === "pdf-to-docx" &&
-    mimeType === "application/pdf"
-  ) {
-
-    bot.sendMessage(
-      chatId,
-      "Converting PDF to Word..."
-    );
-
-    convertPdf(
-      bot,
-      document.file_id,
-      chatId,
-      process.env.BOT_TOKEN,
-      format
-    );
-  }
-
-  // =========================
-  // WORD ➜ PDF
-  // =========================
-
-  else if (
-    format === "docx-to-pdf" &&
-    mimeType ===
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ) {
-
-    bot.sendMessage(
-      chatId,
-      "Converting Word to PDF..."
-    );
-
-    convertPdf(
-      bot,
-      document.file_id,
-      chatId,
-      process.env.BOT_TOKEN,
-      format
-    );
-  }
-  else if (
-    format === "pdf-to-img" &&
-    mimeType === "application/pdf"
-  ) {
-  
-    bot.sendMessage(
-      chatId,
-      "Converting PDF to Images..."
-    );
-  
-    convertPdf(
-      bot,
-      document.file_id,
-      chatId,
-      process.env.BOT_TOKEN,
-      format
-    );
-  }
-  // =========================
   // INVALID FILE
   // =========================
-  else if (
-    format === "pdf-to-txt" &&
-    mimeType === "application/pdf"
-  ) {
-  
-    bot.sendMessage(
-      chatId,
-      "Converting PDF to TXT..."
-    );
-  
-    convertPdf(
-      bot,
-      document.file_id,
-      chatId,
-      process.env.BOT_TOKEN,
-      format
-    );
-  }
-    
-  else if (
-    format === "txt-to-pdf" &&
-    mimeType === "text/plain"
-  ) {
-  
-    bot.sendMessage(
-      chatId,
-      "Converting TXT to PDF..."
-    );
-  
-    convertPdf(
-      bot,
-      document.file_id,
-      chatId,
-      process.env.BOT_TOKEN,
-      format
-    );
-  }
-    
-  else if (
-    format === "pdf-to-html" &&
-    mimeType === "application/pdf"
-  ) {
-  
-    bot.sendMessage(
-      chatId,
-      "Converting PDF to HTML..."
-    );
-  
-    convertPdf(
-      bot,
-      document.file_id,
-      chatId,
-      process.env.BOT_TOKEN,
-      format
-    );
-  }
-   
+
   else {
 
     bot.sendMessage(
       chatId,
-      "Invalid file type."
+      "Only image files are supported."
     );
   }
 });
+
+// =========================
+// KEEP RENDER ALIVE
+// =========================
+
+const http = require("http");
+
+http
+  .createServer((req, res) => {
+
+    res.write("Bot Running");
+
+    res.end();
+
+  })
+  .listen(10000);
