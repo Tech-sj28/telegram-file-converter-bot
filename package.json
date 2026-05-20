@@ -1,10 +1,10 @@
 {
   "name": "file_converter_bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "Telegram Image Converter Bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -12,8 +12,6 @@
   "type": "commonjs",
   "dependencies": {
     "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "multer": "^2.1.1",
     "node-telegram-bot-api": "^0.67.0",
     "pdfkit": "^0.18.0",
     "sharp": "^0.34.5"
