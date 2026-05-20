@@ -234,6 +234,94 @@ bot.on("document", async (msg) => {
   }
 });
 
+
+bot.onText(/\/help/, (msg) => {
+
+  const chatId = msg.chat.id;
+
+  bot.sendMessage(
+    chatId,
+    `
+📌 Available Features
+
+🖼️ JPG ➜ PNG
+🖼️ PNG ➜ JPG
+🖼️ WEBP ➜ PNG
+🎞️ WEBP ➜ GIF
+📄 IMAGE ➜ PDF
+✨ IMAGE ➜ AVIF
+
+Use /start to begin.
+`
+  );
+});
+
+bot.onText(/\/image/, (msg) => {
+
+  const chatId = msg.chat.id;
+
+  bot.sendMessage(
+    chatId,
+    "Choose Image Conversion:",
+    {
+      reply_markup: {
+        inline_keyboard: [
+
+          [
+            {
+              text: "JPG ➜ PNG",
+              callback_data: "png",
+            },
+          ],
+
+          [
+            {
+              text: "PNG ➜ JPG",
+              callback_data: "jpg",
+            },
+          ],
+
+          [
+            {
+              text: "WEBP ➜ PNG",
+              callback_data: "png",
+            },
+          ],
+
+          [
+            {
+              text: "IMAGE ➜ WEBP",
+              callback_data: "webp",
+            },
+          ],
+
+          [
+            {
+              text: "IMAGE ➜ AVIF",
+              callback_data: "avif",
+            },
+          ],
+
+          [
+            {
+              text: "WEBP ➜ GIF",
+              callback_data: "gif",
+            },
+          ],
+
+          [
+            {
+              text: "IMAGE ➜ PDF",
+              callback_data: "img-to-pdf",
+            },
+          ],
+
+        ],
+      },
+    }
+  );
+});
+
 // =========================
 // KEEP RENDER ALIVE
 // =========================
